@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme {
+  /* Arctic: true black, glacial ice blue, frost, snow. */
+  --color-ink: #04080c;
+  --color-hull: #0a1219;
+  --color-slate: #172631;
+  --color-ice: #a6dcef;
+  --color-ice-lit: #dceef6;
+  --color-ice-deep: #2c7e9e;
+  --color-frost: #edf5f8;
+  --color-snow: #ffffff;
+  --color-mist: #55707e;
+  --color-haze: #8ba3b0;
+  --color-amber: #e3a44c;
+  --color-mint: #5ecdb2;
+  /* A decision tool has to be able to say no. */
+  --color-ember: #e2705e;
+
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-prose: "Newsreader", Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Newsreader is a serif with a small optical size; hold it open. */
+  body {
+    font-family: var(--font-prose);
+    font-optical-sizing: auto;
+    line-height: 1.65;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ice);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-ice);
+    color: var(--color-ink);
+  }
+}
+
+@layer utilities {
+  /* Hull-plate display type: expanded grotesque, set tight.
+     Three leading steps, largest type gets the tightest. Order matters —
+     .plate-lg and .plate-xl are defined after .plate so they win. */
+  .plate {
+    font-family: var(--font-display);
+    font-stretch: 116%;
+    font-weight: 800;
+    letter-spacing: -0.028em;
+    line-height: 1.08;
+  }
+
+  .plate-lg {
+    line-height: 0.98;
+    letter-spacing: -0.032em;
+  }
+
+  .plate-xl {
+    line-height: 0.88;
+    letter-spacing: -0.038em;
+  }
+
+  /* Same family at normal width for interface text. */
+  .ui {
+    font-family: var(--font-display);
+    font-stretch: 100%;
+    letter-spacing: -0.005em;
+  }
+
+  /* Figures that should line up column to column. */
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  /* Polar light rising off a black horizon. */
+  .grad-polar {
+    background:
+      radial-gradient(120% 78% at 50% 100%, rgba(166, 220, 239, 0.26) 0%, rgba(166, 220, 239, 0.06) 42%, transparent 70%),
+      linear-gradient(180deg, #04080c 0%, #061119 55%, #0a1c27 100%);
+  }
+
+  /* Glacial melt: ice into white. */
+  .grad-melt {
+    background: linear-gradient(175deg, #dceef6 0%, #edf5f8 34%, #ffffff 100%);
+  }
+
+  .grad-melt-up {
+    background: linear-gradient(0deg, #dceef6 0%, #edf5f8 40%, #ffffff 100%);
+  }
+
+  /* One orchestrated moment: the voyage draws itself, once. */
+  .voyage {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: voyage-draw 2.6s cubic-bezier(0.33, 0.9, 0.3, 1) 0.35s forwards;
+  }
+
+  @keyframes voyage-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .landfall {
+    opacity: 0;
+    animation: landfall 0.7s ease-out 2.7s forwards;
+  }
+
+  @keyframes landfall {
+    from {
+      opacity: 0;
+      r: 3;
+    }
+    to {
+      opacity: 1;
+      r: 5;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .voyage {
+    stroke-dashoffset: 0;
+  }
+
+  .landfall {
+    opacity: 1;
+  }
+}
+
+/* Chrome repaints autofilled inputs a hard yellow; hold the form palette. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 40px #ffffff inset !important;
+  -webkit-text-fill-color: #04080c !important;
+  caret-color: #2c7e9e !important;
+}
